@@ -1,0 +1,6 @@
+import { siteConfig } from '../lib/config';
+import { Icon } from '../components/icons';
+
+export default function ContactPage() {
+  return <div className="simple-page container"><div className="contact-layout"><div className="contact-copy"><span className="eyebrow">যোগাযোগ</span><h1>কথা বলতে<br /><em>ভালো লাগে।</em></h1><p>বই বাছাই, অর্ডার বা ডেলিভারি নিয়ে কোনো প্রশ্ন থাকলে আমাদের মেসেজ দিন। আমরা প্রতিদিন সকাল ৯টা থেকে রাত ১০টা পর্যন্ত আছি।</p><a className="contact-option" href={siteConfig.whatsappHref}><span><Icon name="whatsapp" size={20} /></span><div><small>WhatsApp</small><b>{siteConfig.whatsapp}</b></div><Icon name="arrow" size={16} /></a><a className="contact-option" href={`mailto:${siteConfig.email}`}><span><Icon name="book" size={20} /></span><div><small>ইমেইল</small><b>{siteConfig.email}</b></div><Icon name="arrow" size={16} /></a></div><div className="contact-card"><span className="eyebrow">একটি বার্তা পাঠান</span><h2>আমরা শুনছি</h2><form action="#"><label>আপনার নাম<input required placeholder="নাম লিখুন" /></label><label>ফোন নম্বর<input required placeholder="01XXXXXXXXX" /></label><label>আপনার বার্তা<textarea required rows={4} placeholder="কীভাবে সাহায্য করতে পারি?" /></label><button className="btn btn-primary" type="submit">বার্তা পাঠান <Icon name="arrow" size={16} /></button></form></div></div></div>;
+}

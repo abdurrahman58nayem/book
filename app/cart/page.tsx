@@ -1,0 +1,14 @@
+'use client';
+
+import Link from 'next/link';
+import { useStore } from '../components/store-provider';
+import { BookCover } from '../components/book-cover';
+import { Breadcrumbs } from '../components/breadcrumbs';
+import { Icon } from '../components/icons';
+import { formatPrice } from '../lib/data';
+
+export default function CartPage() {
+  const { cart, cartTotal, updateQuantity, removeFromCart } = useStore();
+  const delivery = cartTotal > 0 ? 60 : 0;
+  return <div className="cart-page container"><Breadcrumbs items={[{ label: 'আপনার কার্ট' }]} /><div className="cart-heading"><div><span className="eyebrow">একবার দেখে নিন</span><h1>আপনার কার্ট</h1></div>{cart.length > 0 && <span>{cart.length.toLocaleString('bn-BD')}টি বই</span>}</div>{cart.length === 0 ? <div className="empty-cart"><span className="empty-cart-icon"><Icon name="cart" size={34} /></span><h2>আপনার কার্ট এখনো খালি</h2><p>পছন্দের বইগুলো যোগ করুন, তারপর একসঙ্গে অর্ডার করুন।</p><Link href="/" className="btn btn-primary">বই দেখতে যান <Icon name="arrow" size={16} /></Link></div> : <div className="cart-layout"><section className="cart-lines"><div className="cart-lines-header"><span>বই</span><span>মূল্য</span></div>{cart.map(({ book, quantity }) => <div className="cart-line" key={book.slug}><Link href={`/books/${book.slug}`} className="cart-line-cover"><BookCover book={book} size="mini" /></Link><div className="cart-line-info"><span className="eyebrow">{book.category}</span><Link href={`/books/${book.slug}`}><h2>{book.title}</h2></Link><p>{book.author}</p><button onClick={() => removeFromCart(book.slug)}><Icon name="trash" size={14} /> সরিয়ে ফেলুন</button></div><div className="cart-line-price"><strong>{formatPrice(book.price * quantity)}</strong>{book.oldPrice && <del>{formatPrice(book.oldPrice * quantity)}</del>}<div className="quantity-control"><button onClick={() => updateQuantity(book.slug, quantity - 1)} aria-label="পরিমাণ কমান"><Icon name="minus" size={14} /></button><span>{quantity}</span><button onClick={() => updateQuantity(book.slug, quantity + 1)} aria-label="পরিমাণ বাড়ান"><Icon name="plus" size={14} /></button></div></div></div>)}<Link href="/" className="continue-shopping"><Icon name="arrowLeft" size={16} /> আরও বই দেখুন</Link></section><aside className="order-summary"><h2>অর্ডারের সারাংশ</h2><div className="summary-row"><span>বইয়ের মূল্য</span><strong>{formatPrice(cartTotal)}</strong></div><div className="summary-row"><span>ডেলিভারি চার্জ <small>ঢাকার ভেতরে</small></span><strong>{formatPrice(delivery)}</strong></div><div className="summary-divider" /><div className="summary-total"><span>সর্বমোট</span><strong>{formatPrice(cartTotal + delivery)}</strong></div><Link href="/checkout" className="btn btn-primary btn-full">অর্ডার করতে এগিয়ে যান <Icon name="arrow" size={16} /></Link><p className="cod-note"><Icon name="shield" size={15} /> ক্যাশ অন ডেলিভারি উপলব্ধ</p></aside></div>}</div>;
+}
